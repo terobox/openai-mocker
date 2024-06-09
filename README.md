@@ -5,3 +5,7 @@
 ```bash
 ./openai-mocker --port 3000
 ```
+
+```
+pm2 start ./openai-mocker --name mocker -- --port 3001
+```
