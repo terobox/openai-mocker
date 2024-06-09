@@ -3,13 +3,15 @@ package main
 import (
 	"encoding/json"
 	"flag"
-	"github.com/gin-gonic/gin"
 	"io"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 	"strconv"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 var stopReason string
@@ -28,6 +30,10 @@ func main() {
 	server := gin.Default()
 	server.Use(CORS())
 	server.POST("/v1/chat/completions", func(c *gin.Context) {
+		// 随机延迟0.5到2秒之间
+		randomDelay := time.Duration(500+rand.Intn(1500)) * time.Millisecond
+		time.Sleep(randomDelay)
+
 		var chatRequest ChatRequest
 		if err := c.ShouldBindJSON(&chatRequest); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
